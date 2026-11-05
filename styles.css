@@ -34,10 +34,12 @@ button:disabled { cursor: default; opacity: .35; }
   min-height: 48px;
   gap: 12px;
 }
+.header-actions { display: flex; align-items: center; gap: 4px; flex: 0 0 auto; }
 .header h1 { font-size: 18px; line-height: 1.2; margin: 0; font-weight: 800; }
 .header-button, .plain-button {
   min-height: 44px;
   min-width: 58px;
+  padding: 0 6px;
   border: 0;
   background: transparent;
   color: var(--ink);
@@ -219,6 +221,8 @@ select, input[type="time"], input[type="number"] {
 @media (max-width: 360px) {
   .round-info { font-size: 23px; }
   .round-adjust { width: 42px; height: 42px; }
-  .setting-row > label { font-size: 16px; }
-  .duration-inputs select { max-width: 106px; font-size: 16px; }
+  .setting-row { gap: 6px; }
+  .setting-row > label { font-size: 14px; }
+  .duration-inputs { gap: 4px; }
+  .duration-inputs select { width: 82px; max-width: 82px; padding: 6px 4px; font-size: 15px; }
 }

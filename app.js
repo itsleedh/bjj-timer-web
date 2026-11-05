@@ -6,7 +6,7 @@ const elements = {
   roundControls: $("roundControls"), roundControlCount: $("roundControlCount"), roundDown: $("roundDown"), roundUp: $("roundUp"),
   finishInfo: $("finishInfo"), deadlineInfo: $("deadlineInfo"), message: $("message"), presets: $("presets"),
   configSummary: $("configSummary"), primaryButton: $("primaryButton"), resetButton: $("resetButton"),
-  settingsButton: $("settingsButton"), settingsDialog: $("settingsDialog"), settingsForm: $("settingsForm"),
+  settingsButton: $("settingsButton"), languageButton: $("languageButton"), settingsDialog: $("settingsDialog"), settingsForm: $("settingsForm"),
   closeSettings: $("closeSettings"), cancelSettings: $("cancelSettings"), workMinutes: $("workMinutes"),
   workSeconds: $("workSeconds"), customWorkRow: $("customWorkRow"), customWorkMinutes: $("customWorkMinutes"),
   restMinutes: $("restMinutes"), restSeconds: $("restSeconds"), roundsSetting: $("roundsSetting"),
@@ -15,6 +15,74 @@ const elements = {
   previewRounds: $("previewRounds"), previewDuration: $("previewDuration"), previewFinish: $("previewFinish"),
   testSound: $("testSound"), settingsError: $("settingsError"), saveSettings: $("saveSettings"),
 };
+
+const translations = {
+  ko: {
+    appTitle: "주짓수 타이머", description: "스파링과 휴식을 큰 화면과 비프음으로 알려주는 주짓수 타이머",
+    settings: "설정", switchLanguage: "영어로 전환", trainingTimer: "훈련 타이머", timeRemaining: "남은 시간",
+    timerControls: "타이머 조작", roundCount: "반복 횟수", decreaseRounds: "반복 횟수 줄이기",
+    increaseRounds: "반복 횟수 늘리기", quickTimers: "빠른 타이머", reset: "처음으로",
+    trainingSettings: "훈련 설정", closeSettings: "설정 닫기", duration: "시간", sparring: "스파링",
+    sparringMinutes: "스파링 분", sparringSeconds: "스파링 초", zeroSeconds: "0초", thirtySeconds: "30초",
+    moreTime: "더 많은 시간", minutesUnit: "분", rest: "휴식", restMinutes: "휴식 분", restSeconds: "휴식 초",
+    moreRest: "더 많은 휴식시간", repeat: "반복", roundsMode: "횟수", endTime: "종료 시각",
+    trainingPreview: "훈련 미리보기", totalDuration: "총 소요 시간", estimatedEnd: "예상 종료",
+    soundCues: "알림 소리", testSound: "소리 확인",
+    soundHint: "시작은 긴 비프음, 휴식은 짧은 비프음 2회, 전체 종료는 3회입니다. 기기 음량을 높여주세요.",
+    cancel: "취소", save: "저장", none: "없음", trainingComplete: "훈련 완료", paused: "일시정지", pause: "일시정지",
+    ready: "준비", start: "시작", continue: "계속하기", restart: "다시 시작", finished: "종료",
+    deadlineBasis: "종료 기준", audioUnavailable: "소리를 사용할 수 없습니다. 기기 음량과 브라우저 설정을 확인해 주세요.",
+    audioUnsupported: "이 브라우저에서는 비프음을 재생할 수 없습니다.",
+    interrupted: "화면 잠금 또는 앱 전환으로 일시정지했습니다. 소리를 확인한 뒤 계속하세요.",
+    resetConfirm: "처음으로 돌아갈까요? 진행 중인 훈련을 종료하고 시간 설정은 유지합니다.",
+    deadlineHint: "이미 지난 시각은 다음 날로 계산합니다. 시작한 마지막 스파링은 끝까지 진행합니다.",
+    roundsHint: "마지막 스파링 뒤에는 휴식 없이 종료합니다.",
+    moreRestLuxury: "2분 이상의 휴식은 사치입니다",
+    soundPlayed: "비프음을 재생했습니다. 들리지 않으면 기기 음량을 확인해 주세요.",
+    invalidWork: "스파링 시간을 30초부터 99분 30초까지 설정해 주세요.",
+    invalidRest: "휴식 시간을 0초부터 2분 30초까지 설정해 주세요.",
+    invalidMode: "반복 방식을 선택해 주세요.", invalidRounds: "반복 횟수는 1~99회로 설정해 주세요.",
+    invalidDeadline: "종료 시각을 확인해 주세요.",
+  },
+  en: {
+    appTitle: "BJJ Timer", description: "BJJ sparring timer with a large countdown and audible cues",
+    settings: "Settings", switchLanguage: "Switch to Korean", trainingTimer: "Training timer", timeRemaining: "Time remaining",
+    timerControls: "Timer controls", roundCount: "Rounds", decreaseRounds: "Decrease rounds",
+    increaseRounds: "Increase rounds", quickTimers: "Quick timers", reset: "Reset",
+    trainingSettings: "Timer settings", closeSettings: "Close settings", duration: "Duration", sparring: "Sparring",
+    sparringMinutes: "Sparring minutes", sparringSeconds: "Sparring seconds", zeroSeconds: "0 sec", thirtySeconds: "30 sec",
+    moreTime: "More time", minutesUnit: "min", rest: "Rest", restMinutes: "Rest minutes", restSeconds: "Rest seconds",
+    moreRest: "More rest time", repeat: "Repeat", roundsMode: "Rounds", endTime: "End time",
+    trainingPreview: "Workout preview", totalDuration: "Total time", estimatedEnd: "Est. finish",
+    soundCues: "Sound cues", testSound: "Test sound",
+    soundHint: "A long beep starts sparring. Two short beeps start rest; three signal the end. Turn up your device volume.",
+    cancel: "Cancel", save: "Save", none: "None", trainingComplete: "Workout complete", paused: "Paused", pause: "Pause",
+    ready: "Ready", start: "Start", continue: "Resume", restart: "Start again", finished: "Finished",
+    deadlineBasis: "End time", audioUnavailable: "Sound is unavailable. Check your device volume and browser settings.",
+    audioUnsupported: "This browser cannot play beeps.",
+    interrupted: "Paused after screen lock or app switch. Check the sound, then resume.",
+    resetConfirm: "Reset the timer? This ends the current workout but keeps your settings.",
+    deadlineHint: "A past time means tomorrow. The final sparring round runs to completion.",
+    roundsHint: "The workout ends after the last sparring round, without a final rest.",
+    moreRestLuxury: "More than 2 minutes of rest is a luxury.",
+    soundPlayed: "Beep played. Check your device volume if you did not hear it.",
+    invalidWork: "Set sparring between 30 sec and 99 min 30 sec.",
+    invalidRest: "Set rest between 0 sec and 2 min 30 sec.",
+    invalidMode: "Choose a repeat mode.", invalidRounds: "Set rounds between 1 and 99.",
+    invalidDeadline: "Check the end time.",
+  },
+};
+
+function loadLanguage() {
+  try { return localStorage.getItem("bjj-timer-language-v1") === "en" ? "en" : "ko"; }
+  catch { return "ko"; }
+}
+
+let language = loadLanguage();
+const t = (key) => translations[language][key];
+const validationErrorKeys = Object.fromEntries([
+  "invalidWork", "invalidRest", "invalidMode", "invalidRounds", "invalidDeadline",
+].map((key) => [translations.ko[key], key]));
 
 function nextFullHour() {
   const date = new Date();
@@ -35,7 +103,7 @@ function loadSettings() {
 
 let settings = loadSettings();
 let engine = new TimerEngine(settings);
-let statusMessage = "";
+let statusMessageKey = "";
 let wakeLock = null;
 let lastRestMinutes = "1";
 
@@ -47,12 +115,39 @@ const timeFormatter = new Intl.DateTimeFormat("ko-KR", { hour: "2-digit", minute
 function formatTime(ms) { return timeFormatter.format(new Date(ms)); }
 
 function formatDuration(seconds) {
-  if (seconds === 0) return "없음";
+  if (seconds === 0) return t("none");
   const minutes = Math.floor(seconds / 60);
   const leftover = seconds % 60;
-  if (!minutes) return `${leftover}초`;
-  if (!leftover) return `${minutes}분`;
-  return `${minutes}분 ${leftover}초`;
+  const minuteText = `${minutes}${language === "ko" ? "분" : " min"}`;
+  const secondText = `${leftover}${language === "ko" ? "초" : " sec"}`;
+  if (!minutes) return secondText;
+  if (!leftover) return minuteText;
+  return `${minuteText} ${secondText}`;
+}
+
+function applyLanguage() {
+  document.documentElement.lang = language;
+  document.title = t("appTitle");
+  document.querySelector('meta[name="description"]').content = t("description");
+  document.querySelector('meta[name="apple-mobile-web-app-title"]').content = t("appTitle");
+  for (const node of document.querySelectorAll("[data-i18n]")) node.textContent = t(node.dataset.i18n);
+  for (const node of document.querySelectorAll("[data-i18n-aria]")) node.setAttribute("aria-label", t(node.dataset.i18nAria));
+  elements.languageButton.textContent = language === "ko" ? "ENG" : "한국어";
+  elements.languageButton.setAttribute("aria-label", t("switchLanguage"));
+  for (const [select, max, moreKey] of [
+    [elements.workMinutes, 10, "moreTime"], [elements.restMinutes, 2, "moreRest"],
+  ]) {
+    for (let minute = 0; minute <= max; minute += 1) select.options[minute].textContent = `${minute}${language === "ko" ? "분" : " min"}`;
+    select.options[max + 1].textContent = t(moreKey);
+  }
+  for (const button of elements.presets.querySelectorAll("button[data-preset]")) {
+    const minutes = Number(button.dataset.preset);
+    const rest = minutes === 4 ? 30 : minutes === 8 ? 90 : 60;
+    button.firstChild.textContent = formatDuration(minutes * 60);
+    button.querySelector("span").textContent = `${t("rest")} ${formatDuration(rest)}`;
+  }
+  render();
+  if (elements.settingsDialog.open) updateSettingsPreview();
 }
 
 class CuePlayer {
@@ -62,12 +157,12 @@ class CuePlayer {
     try {
       this.context ??= new (window.AudioContext || window.webkitAudioContext)();
       if (this.context.state !== "running") void this.context.resume().catch(() => {
-        statusMessage = "소리를 사용할 수 없습니다. 기기 음량과 브라우저 설정을 확인해 주세요.";
+        statusMessageKey = "audioUnavailable";
         render();
       });
       return true;
     } catch {
-      statusMessage = "이 브라우저에서는 비프음을 재생할 수 없습니다.";
+      statusMessageKey = "audioUnsupported";
       render();
       return false;
     }
@@ -123,33 +218,35 @@ function render() {
   document.body.classList.toggle("is-running", engine.status === "running");
   document.body.classList.toggle("is-paused", engine.status === "paused");
   const phaseStatus = engine.status === "completed"
-    ? "훈련 완료"
-    : [isRest ? "휴식" : "", engine.status === "paused" ? "일시정지" : ""].filter(Boolean).join(" · ");
+    ? t("trainingComplete")
+    : [isRest ? t("rest") : "", engine.status === "paused" ? t("paused") : ""].filter(Boolean).join(" · ");
   elements.phase.textContent = phaseStatus;
   elements.phase.hidden = !phaseStatus;
   elements.clock.textContent = formatClock(engine.displaySeconds);
   elements.roundInfo.textContent = engine.status === "ready"
-    ? `${count}회 · 준비`
-    : engine.status === "completed" ? `${engine.round}회 완료` : `라운드 ${engine.round} / ${count}`;
+    ? language === "ko" ? `${count}회 · ${t("ready")}` : `${count} rounds · ${t("ready")}`
+    : engine.status === "completed"
+      ? language === "ko" ? `${engine.round}회 완료` : `${engine.round} rounds done`
+      : language === "ko" ? `라운드 ${engine.round} / ${count}` : `Round ${engine.round} / ${count}`;
 
   const canChangeRounds = (engine.status === "ready" || engine.status === "completed") && settings.mode === "rounds";
   elements.roundLine.hidden = engine.status === "ready" && canChangeRounds;
   elements.roundControls.hidden = !canChangeRounds;
-  elements.roundControlCount.textContent = `반복 ${settings.rounds}회`;
+  elements.roundControlCount.textContent = language === "ko" ? `반복 ${settings.rounds}회` : `Rounds ${settings.rounds}`;
   elements.roundDown.disabled = settings.rounds <= 1;
   elements.roundUp.disabled = settings.rounds >= 99;
   elements.settingsButton.hidden = engine.status === "running" || engine.status === "paused";
   elements.presets.hidden = engine.status !== "ready";
   elements.resetButton.hidden = engine.status !== "paused";
-  elements.primaryButton.textContent = ({ ready: "시작", running: "일시정지", paused: "계속하기", completed: "다시 시작" })[engine.status];
-  elements.configSummary.textContent = `스파링 ${formatDuration(settings.workSeconds)} · 휴식 ${formatDuration(settings.restSeconds)}`;
-  elements.message.textContent = statusMessage;
-  elements.message.hidden = !statusMessage;
+  elements.primaryButton.textContent = t(({ ready: "start", running: "pause", paused: "continue", completed: "restart" })[engine.status]);
+  elements.configSummary.textContent = `${t("sparring")} ${formatDuration(settings.workSeconds)} · ${t("rest")} ${formatDuration(settings.restSeconds)}`;
+  elements.message.textContent = statusMessageKey ? t(statusMessageKey) : "";
+  elements.message.hidden = !statusMessageKey;
 
   const finish = engine.projectedFinish(nowMs);
-  elements.finishInfo.textContent = finish === null ? "" : `${engine.status === "completed" ? "종료" : "예상 종료"} ${formatTime(finish)}`;
+  elements.finishInfo.textContent = finish === null ? "" : `${t(engine.status === "completed" ? "finished" : "estimatedEnd")} ${formatTime(finish)}`;
   elements.deadlineInfo.hidden = settings.mode !== "deadline" || engine.status === "completed";
-  elements.deadlineInfo.textContent = settings.mode === "deadline" ? `종료 기준 ${settings.deadline}` : "";
+  elements.deadlineInfo.textContent = settings.mode === "deadline" ? `${t("deadlineBasis")} ${settings.deadline}` : "";
   for (const button of elements.presets.querySelectorAll("button")) {
     const minutes = Number(button.dataset.preset);
     const rest = minutes === 4 ? 30 : minutes === 8 ? 90 : 60;
@@ -161,7 +258,7 @@ function pauseForInterruption() {
   if (engine.status !== "running") return;
   engine.pause(Date.now(), performance.now());
   releaseWakeLock();
-  if (engine.status === "paused") statusMessage = "화면 잠금 또는 앱 전환으로 일시정지했습니다. 소리를 확인한 뒤 계속하세요.";
+  if (engine.status === "paused") statusMessageKey = "interrupted";
   render();
 }
 
@@ -173,7 +270,7 @@ elements.primaryButton.addEventListener("click", () => {
     return;
   }
   if (!audio.unlock()) return;
-  statusMessage = "";
+  statusMessageKey = "";
   if (engine.status === "completed") engine.reset();
   const nowMs = Date.now();
   const monoMs = performance.now();
@@ -184,9 +281,9 @@ elements.primaryButton.addEventListener("click", () => {
 });
 
 elements.resetButton.addEventListener("click", () => {
-  if (!window.confirm("처음으로 돌아갈까요? 진행 중인 훈련을 종료하고 시간 설정은 유지합니다.")) return;
+  if (!window.confirm(t("resetConfirm"))) return;
   engine.reset();
-  statusMessage = "";
+  statusMessageKey = "";
   releaseWakeLock();
   render();
 });
@@ -210,17 +307,17 @@ elements.presets.addEventListener("click", (event) => {
 
 function saveSettings() {
   engine = new TimerEngine(settings);
-  statusMessage = "";
+  statusMessageKey = "";
   try { localStorage.setItem("bjj-timer-settings-v1", JSON.stringify(settings)); } catch { /* Private mode may block storage. */ }
   render();
 }
 
-function fillMinuteOptions(select, max, moreLabel) {
-  for (let minute = 0; minute <= max; minute += 1) select.add(new Option(`${minute}분`, String(minute)));
-  select.add(new Option(moreLabel, "more"));
+function fillMinuteOptions(select, max, moreKey) {
+  for (let minute = 0; minute <= max; minute += 1) select.add(new Option(`${minute}${language === "ko" ? "분" : " min"}`, String(minute)));
+  select.add(new Option(t(moreKey), "more"));
 }
-fillMinuteOptions(elements.workMinutes, 10, "더 많은 시간");
-fillMinuteOptions(elements.restMinutes, 2, "더 많은 휴식시간");
+fillMinuteOptions(elements.workMinutes, 10, "moreTime");
+fillMinuteOptions(elements.restMinutes, 2, "moreRest");
 
 function currentDraft() {
   const workMinute = elements.workMinutes.value === "more" ? Number(elements.customWorkMinutes.value) : Number(elements.workMinutes.value);
@@ -239,16 +336,14 @@ function updateSettingsPreview() {
   const mode = elements.settingsForm.querySelector('input[name="mode"]:checked').value;
   elements.roundsSetting.hidden = mode !== "rounds";
   elements.deadlineSetting.hidden = mode !== "deadline";
-  elements.modeHint.textContent = mode === "deadline"
-    ? "이미 지난 시각은 다음 날로 계산합니다. 시작한 마지막 스파링은 끝까지 진행합니다."
-    : "마지막 스파링 뒤에는 휴식 없이 종료합니다.";
+  elements.modeHint.textContent = t(mode === "deadline" ? "deadlineHint" : "roundsHint");
   const draft = currentDraft();
   const error = validateSettings(draft);
-  elements.settingsError.textContent = error || "";
+  elements.settingsError.textContent = error ? (validationErrorKeys[error] ? t(validationErrorKeys[error]) : error) : "";
   elements.settingsError.hidden = !error;
   elements.saveSettings.disabled = Boolean(error);
   const plan = error ? null : planWorkout(draft, Date.now());
-  elements.previewRounds.textContent = plan ? `${plan.rounds}회` : "–";
+  elements.previewRounds.textContent = plan ? language === "ko" ? `${plan.rounds}회` : `${plan.rounds} rounds` : "–";
   elements.previewDuration.textContent = plan ? formatDuration(plan.seconds) : "–";
   elements.previewFinish.textContent = plan ? formatTime(plan.finishMs) : "–";
 }
@@ -270,6 +365,11 @@ function openSettings() {
 }
 
 elements.settingsButton.addEventListener("click", openSettings);
+elements.languageButton.addEventListener("click", () => {
+  language = language === "ko" ? "en" : "ko";
+  try { localStorage.setItem("bjj-timer-language-v1", language); } catch { /* Private mode may block storage. */ }
+  applyLanguage();
+});
 elements.closeSettings.addEventListener("click", () => elements.settingsDialog.close());
 elements.cancelSettings.addEventListener("click", () => elements.settingsDialog.close());
 elements.settingsDialog.addEventListener("click", (event) => {
@@ -278,7 +378,7 @@ elements.settingsDialog.addEventListener("click", (event) => {
 elements.restMinutes.addEventListener("change", () => {
   if (elements.restMinutes.value === "more") {
     elements.restMinutes.value = lastRestMinutes;
-    window.alert("2분 이상의 휴식은 사치입니다");
+    window.alert(t("moreRestLuxury"));
   } else {
     lastRestMinutes = elements.restMinutes.value;
   }
@@ -303,7 +403,7 @@ elements.settingsForm.addEventListener("submit", (event) => {
 elements.testSound.addEventListener("click", () => {
   if (audio.unlock()) {
     audio.play("work");
-    statusMessage = "비프음을 재생했습니다. 들리지 않으면 기기 음량을 확인해 주세요.";
+    statusMessageKey = "soundPlayed";
     render();
   }
 });
@@ -320,6 +420,6 @@ setInterval(() => {
 }, 250);
 
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => { void navigator.serviceWorker.register("./sw.js?v=4").catch(() => {}); });
+  window.addEventListener("load", () => { void navigator.serviceWorker.register("./sw.js?v=5").catch(() => {}); });
 }
-render();
+applyLanguage();

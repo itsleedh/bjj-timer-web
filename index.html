@@ -11,45 +11,48 @@
   <link rel="manifest" href="./manifest.webmanifest">
   <link rel="apple-touch-icon" href="./apple-touch-icon.png">
   <link rel="icon" type="image/png" href="./icon-192.png">
-  <link rel="stylesheet" href="./styles.css?v=4">
+  <link rel="stylesheet" href="./styles.css?v=5">
   <title>주짓수 타이머</title>
-  <script type="module" src="./app.js?v=4"></script>
+  <script type="module" src="./app.js?v=5"></script>
 </head>
 <body>
   <div class="app">
     <header class="header">
-      <h1>주짓수 타이머</h1>
-      <button id="settingsButton" class="header-button" type="button">설정</button>
+      <h1 data-i18n="appTitle">주짓수 타이머</h1>
+      <div class="header-actions">
+        <button id="settingsButton" class="header-button" type="button" data-i18n="settings">설정</button>
+        <button id="languageButton" class="header-button" type="button" aria-label="Switch to English">ENG</button>
+      </div>
     </header>
 
     <main class="main-layout">
-      <section class="timer-face" aria-label="훈련 타이머">
+      <section class="timer-face" aria-label="훈련 타이머" data-i18n-aria="trainingTimer">
         <div class="timer-center">
           <div id="phase" class="phase" aria-live="polite" hidden></div>
           <div id="roundLine" class="round-line">
             <div id="roundInfo" class="round-info">5회 · 준비</div>
           </div>
-          <div id="clock" class="clock" role="timer" aria-label="남은 시간">05:00</div>
+          <div id="clock" class="clock" role="timer" aria-label="남은 시간" data-i18n-aria="timeRemaining">05:00</div>
           <div id="configSummary" class="config-summary">스파링 5분 · 휴식 1분</div>
           <div id="finishInfo" class="finish-info"></div>
           <div id="deadlineInfo" class="deadline-info" hidden></div>
         </div>
       </section>
 
-      <section class="controls" aria-label="타이머 조작">
+      <section class="controls" aria-label="타이머 조작" data-i18n-aria="timerControls">
         <div id="message" class="message" role="status" hidden></div>
-        <div id="roundControls" class="round-controls" aria-label="반복 횟수">
-          <button id="roundDown" class="round-adjust" type="button" aria-label="횟수 줄이기">−</button>
+        <div id="roundControls" class="round-controls" aria-label="반복 횟수" data-i18n-aria="roundCount">
+          <button id="roundDown" class="round-adjust" type="button" aria-label="횟수 줄이기" data-i18n-aria="decreaseRounds">−</button>
           <span id="roundControlCount">반복 6회</span>
-          <button id="roundUp" class="round-adjust" type="button" aria-label="횟수 늘리기">+</button>
+          <button id="roundUp" class="round-adjust" type="button" aria-label="횟수 늘리기" data-i18n-aria="increaseRounds">+</button>
         </div>
-        <div id="presets" class="presets" aria-label="빠른 타이머">
+        <div id="presets" class="presets" aria-label="빠른 타이머" data-i18n-aria="quickTimers">
           <button type="button" data-preset="4">4분<span>휴식 30초</span></button>
           <button type="button" data-preset="5">5분<span>휴식 1분</span></button>
           <button type="button" data-preset="8">8분<span>휴식 1분 30초</span></button>
         </div>
         <button id="primaryButton" class="primary-button" type="button">시작</button>
-        <button id="resetButton" class="reset-button" type="button" hidden>처음으로</button>
+        <button id="resetButton" class="reset-button" type="button" data-i18n="reset" hidden>처음으로</button>
       </section>
     </main>
   </div>
@@ -57,79 +60,79 @@
   <dialog id="settingsDialog" aria-labelledby="settingsTitle">
     <form id="settingsForm" class="settings-form">
       <header class="dialog-header">
-        <h2 id="settingsTitle">훈련 설정</h2>
-        <button id="closeSettings" class="plain-button" type="button" aria-label="설정 닫기">✕</button>
+        <h2 id="settingsTitle" data-i18n="trainingSettings">훈련 설정</h2>
+        <button id="closeSettings" class="plain-button" type="button" aria-label="설정 닫기" data-i18n-aria="closeSettings">✕</button>
       </header>
 
       <fieldset class="settings-group">
-        <legend>시간</legend>
+        <legend data-i18n="duration">시간</legend>
         <div class="setting-row">
-          <label for="workMinutes">스파링</label>
+          <label for="workMinutes" data-i18n="sparring">스파링</label>
           <div class="duration-inputs">
-            <select id="workMinutes" aria-label="스파링 분"></select>
-            <select id="workSeconds" aria-label="스파링 초">
-              <option value="0">0초</option>
-              <option value="30">30초</option>
+            <select id="workMinutes" aria-label="스파링 분" data-i18n-aria="sparringMinutes"></select>
+            <select id="workSeconds" aria-label="스파링 초" data-i18n-aria="sparringSeconds">
+              <option value="0" data-i18n="zeroSeconds">0초</option>
+              <option value="30" data-i18n="thirtySeconds">30초</option>
             </select>
           </div>
         </div>
         <div id="customWorkRow" class="setting-row custom-row" hidden>
-          <label for="customWorkMinutes">더 많은 시간</label>
+          <label for="customWorkMinutes" data-i18n="moreTime">더 많은 시간</label>
           <div class="duration-inputs">
             <input id="customWorkMinutes" type="number" min="11" max="99" step="1" inputmode="numeric" placeholder="11~99">
-            <span class="unit">분</span>
+            <span class="unit" data-i18n="minutesUnit">분</span>
           </div>
         </div>
         <div class="setting-row">
-          <label for="restMinutes">휴식</label>
+          <label for="restMinutes" data-i18n="rest">휴식</label>
           <div class="duration-inputs">
-            <select id="restMinutes" aria-label="휴식 분"></select>
-            <select id="restSeconds" aria-label="휴식 초">
-              <option value="0">0초</option>
-              <option value="30">30초</option>
+            <select id="restMinutes" aria-label="휴식 분" data-i18n-aria="restMinutes"></select>
+            <select id="restSeconds" aria-label="휴식 초" data-i18n-aria="restSeconds">
+              <option value="0" data-i18n="zeroSeconds">0초</option>
+              <option value="30" data-i18n="thirtySeconds">30초</option>
             </select>
           </div>
         </div>
       </fieldset>
 
       <fieldset class="settings-group">
-        <legend>반복</legend>
+        <legend data-i18n="repeat">반복</legend>
         <div class="mode-selector">
-          <label><input type="radio" name="mode" value="rounds" checked><span>횟수</span></label>
-          <label><input type="radio" name="mode" value="deadline"><span>종료 시각</span></label>
+          <label><input type="radio" name="mode" value="rounds" checked><span data-i18n="roundsMode">횟수</span></label>
+          <label><input type="radio" name="mode" value="deadline"><span data-i18n="endTime">종료 시각</span></label>
         </div>
         <div id="roundsSetting" class="setting-row">
-          <label for="roundsInput">반복 횟수</label>
+          <label for="roundsInput" data-i18n="roundCount">반복 횟수</label>
           <div class="stepper">
-            <button id="settingsRoundDown" type="button" aria-label="반복 횟수 줄이기">−</button>
+            <button id="settingsRoundDown" type="button" aria-label="반복 횟수 줄이기" data-i18n-aria="decreaseRounds">−</button>
             <input id="roundsInput" type="number" min="1" max="99" step="1" inputmode="numeric">
-            <button id="settingsRoundUp" type="button" aria-label="반복 횟수 늘리기">+</button>
+            <button id="settingsRoundUp" type="button" aria-label="반복 횟수 늘리기" data-i18n-aria="increaseRounds">+</button>
           </div>
         </div>
         <div id="deadlineSetting" class="setting-row" hidden>
-          <label for="deadlineInput">종료 시각</label>
+          <label for="deadlineInput" data-i18n="endTime">종료 시각</label>
           <input id="deadlineInput" type="time" step="60">
         </div>
         <p id="modeHint" class="hint">마지막 스파링 뒤에는 휴식 없이 종료합니다.</p>
       </fieldset>
 
       <div class="settings-group preview">
-        <h3>훈련 미리보기</h3>
-        <div><span>스파링</span><strong id="previewRounds">5회</strong></div>
-        <div><span>총 소요 시간</span><strong id="previewDuration">29분</strong></div>
-        <div><span>예상 종료</span><strong id="previewFinish">18:00</strong></div>
+        <h3 data-i18n="trainingPreview">훈련 미리보기</h3>
+        <div><span data-i18n="sparring">스파링</span><strong id="previewRounds">5회</strong></div>
+        <div><span data-i18n="totalDuration">총 소요 시간</span><strong id="previewDuration">29분</strong></div>
+        <div><span data-i18n="estimatedEnd">예상 종료</span><strong id="previewFinish">18:00</strong></div>
       </div>
 
       <div class="settings-group sound-group">
-        <h3>알림 소리</h3>
-        <button id="testSound" type="button">소리 확인</button>
-        <p class="hint">시작은 긴 비프음, 휴식은 짧은 비프음 2회, 전체 종료는 3회입니다. 기기 음량을 높여주세요.</p>
+        <h3 data-i18n="soundCues">알림 소리</h3>
+        <button id="testSound" type="button" data-i18n="testSound">소리 확인</button>
+        <p class="hint" data-i18n="soundHint">시작은 긴 비프음, 휴식은 짧은 비프음 2회, 전체 종료는 3회입니다. 기기 음량을 높여주세요.</p>
       </div>
 
       <p id="settingsError" class="error" role="alert" hidden></p>
       <div class="dialog-actions">
-        <button id="cancelSettings" type="button">취소</button>
-        <button id="saveSettings" type="submit">저장</button>
+        <button id="cancelSettings" type="button" data-i18n="cancel">취소</button>
+        <button id="saveSettings" type="submit" data-i18n="save">저장</button>
       </div>
     </form>
   </dialog>
