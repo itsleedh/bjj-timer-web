@@ -1,4 +1,4 @@
-const CACHE_NAME = "bjj-timer-v1";
+const CACHE_NAME = "bjj-timer-v2";
 const ASSETS = [
   "./", "./index.html", "./styles.css", "./app.js", "./timer-core.js",
   "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png",

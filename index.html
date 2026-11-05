@@ -25,13 +25,12 @@
     <main class="main-layout">
       <section class="timer-face" aria-label="훈련 타이머">
         <div class="timer-center">
-          <div id="phase" class="phase" aria-live="polite">스파링</div>
-          <div id="clock" class="clock" role="timer" aria-label="남은 시간">05:00</div>
-          <div class="round-line">
-            <button id="roundDown" class="round-adjust" type="button" aria-label="횟수 줄이기">−</button>
+          <div id="phase" class="phase" aria-live="polite" hidden></div>
+          <div id="roundLine" class="round-line">
             <div id="roundInfo" class="round-info">5회 · 준비</div>
-            <button id="roundUp" class="round-adjust" type="button" aria-label="횟수 늘리기">+</button>
           </div>
+          <div id="clock" class="clock" role="timer" aria-label="남은 시간">05:00</div>
+          <div id="configSummary" class="config-summary">스파링 5분 · 휴식 1분</div>
           <div id="finishInfo" class="finish-info"></div>
           <div id="deadlineInfo" class="deadline-info" hidden></div>
         </div>
@@ -39,12 +38,16 @@
 
       <section class="controls" aria-label="타이머 조작">
         <div id="message" class="message" role="status" hidden></div>
+        <div id="roundControls" class="round-controls" aria-label="반복 횟수">
+          <button id="roundDown" class="round-adjust" type="button" aria-label="횟수 줄이기">−</button>
+          <span id="roundControlCount">반복 6회</span>
+          <button id="roundUp" class="round-adjust" type="button" aria-label="횟수 늘리기">+</button>
+        </div>
         <div id="presets" class="presets" aria-label="빠른 타이머">
           <button type="button" data-preset="4">4분<span>휴식 30초</span></button>
           <button type="button" data-preset="5">5분<span>휴식 1분</span></button>
           <button type="button" data-preset="8">8분<span>휴식 1분 30초</span></button>
         </div>
-        <div id="configSummary" class="config-summary">스파링 5분 · 휴식 1분</div>
         <button id="primaryButton" class="primary-button" type="button">시작</button>
         <button id="resetButton" class="reset-button" type="button" hidden>처음으로</button>
       </section>

@@ -2,7 +2,8 @@ import { DEFAULT_SETTINGS, TimerEngine, planWorkout, validateSettings } from "./
 
 const $ = (id) => document.getElementById(id);
 const elements = {
-  phase: $("phase"), clock: $("clock"), roundInfo: $("roundInfo"), roundDown: $("roundDown"), roundUp: $("roundUp"),
+  phase: $("phase"), clock: $("clock"), roundLine: $("roundLine"), roundInfo: $("roundInfo"),
+  roundControls: $("roundControls"), roundControlCount: $("roundControlCount"), roundDown: $("roundDown"), roundUp: $("roundUp"),
   finishInfo: $("finishInfo"), deadlineInfo: $("deadlineInfo"), message: $("message"), presets: $("presets"),
   configSummary: $("configSummary"), primaryButton: $("primaryButton"), resetButton: $("resetButton"),
   settingsButton: $("settingsButton"), settingsDialog: $("settingsDialog"), settingsForm: $("settingsForm"),
@@ -75,10 +76,10 @@ class CuePlayer {
   play(cue) {
     if (!this.context) return;
     const pattern = cue === "work"
-      ? [[0, .58, 880]]
+      ? [[0, .78, 880]]
       : cue === "rest"
-        ? [[0, .19, 660], [.32, .19, 660]]
-        : [[0, .18, 990], [.3, .18, 990], [.6, .33, 990]];
+        ? [[0, .39, 660], [.52, .39, 660]]
+        : [[0, .38, 990], [.5, .38, 990], [1, .53, 990]];
     const base = this.context.currentTime + .02;
     for (const [offset, duration, frequency] of pattern) {
       const start = base + offset;
@@ -118,14 +119,23 @@ function render() {
   const count = readyPlan?.rounds ?? engine.plannedRounds;
   const isRest = engine.phase === "rest" && engine.status !== "completed";
   document.body.classList.toggle("is-rest", isRest);
-  elements.phase.textContent = engine.status === "completed" ? "훈련 완료" : `${isRest ? "휴식" : "스파링"}${engine.status === "paused" ? " · 일시정지" : ""}`;
+  document.body.classList.toggle("is-active", engine.status === "running" || engine.status === "paused");
+  document.body.classList.toggle("is-running", engine.status === "running");
+  document.body.classList.toggle("is-paused", engine.status === "paused");
+  const phaseStatus = engine.status === "completed"
+    ? "훈련 완료"
+    : [isRest ? "휴식" : "", engine.status === "paused" ? "일시정지" : ""].filter(Boolean).join(" · ");
+  elements.phase.textContent = phaseStatus;
+  elements.phase.hidden = !phaseStatus;
   elements.clock.textContent = formatClock(engine.displaySeconds);
   elements.roundInfo.textContent = engine.status === "ready"
     ? `${count}회 · 준비`
     : engine.status === "completed" ? `${engine.round}회 완료` : `라운드 ${engine.round} / ${count}`;
 
   const canChangeRounds = (engine.status === "ready" || engine.status === "completed") && settings.mode === "rounds";
-  elements.roundDown.hidden = elements.roundUp.hidden = !canChangeRounds;
+  elements.roundLine.hidden = engine.status === "ready" && canChangeRounds;
+  elements.roundControls.hidden = !canChangeRounds;
+  elements.roundControlCount.textContent = `반복 ${settings.rounds}회`;
   elements.roundDown.disabled = settings.rounds <= 1;
   elements.roundUp.disabled = settings.rounds >= 99;
   elements.settingsButton.hidden = engine.status === "running" || engine.status === "paused";

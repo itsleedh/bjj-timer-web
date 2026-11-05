@@ -45,13 +45,13 @@ button:disabled { cursor: default; opacity: .35; }
 }
 
 .main-layout { min-height: 0; flex: 1; display: flex; flex-direction: column; }
-.timer-face { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; text-align: center; }
+.timer-face { position: relative; flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; text-align: center; }
 .timer-center { width: 100%; display: flex; flex-direction: column; align-items: center; gap: clamp(6px, 1.2vh, 20px); }
-.phase { font-size: clamp(26px, 5.6vw, 54px); font-weight: 850; line-height: 1.1; }
+.phase { position: absolute; top: 0; right: 0; font-size: clamp(22px, 3.5vw, 38px); font-weight: 850; line-height: 1.1; text-align: right; }
 .clock {
   width: 100%;
   font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
-  font-size: clamp(87px, min(31vw, 37vh), 370px);
+  font-size: clamp(100px, min(38vw, 43vh), 430px);
   font-weight: 900;
   font-stretch: condensed;
   font-variant-numeric: tabular-nums;
@@ -62,6 +62,8 @@ button:disabled { cursor: default; opacity: .35; }
 }
 .round-line { display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%; }
 .round-info { font-size: clamp(27px, 5.2vw, 54px); font-weight: 850; line-height: 1.15; white-space: nowrap; }
+.round-controls { display: flex; align-items: center; justify-content: center; gap: 16px; }
+.round-controls span { min-width: 130px; font-size: clamp(21px, 3vw, 30px); font-weight: 850; text-align: center; }
 .round-adjust {
   width: 48px;
   height: 48px;
@@ -105,6 +107,27 @@ button:disabled { cursor: default; opacity: .35; }
 .primary-button { background: var(--ink); color: var(--yellow); }
 .reset-button { background: transparent; color: var(--ink); }
 .is-rest .phase, .is-rest .clock { color: var(--red); }
+
+.is-active .main-layout { position: relative; display: block; }
+.is-active .timer-face { width: 100%; height: 100%; }
+.is-active .clock { font-size: clamp(112px, min(46vw, 60vh), 540px); }
+.is-active .timer-center { gap: clamp(6px, 1vh, 12px); }
+.is-active .finish-info,
+.is-active .deadline-info { position: absolute; right: 0; text-align: right; }
+.is-active .round-info { font-size: clamp(28px, 4.4vw, 52px); }
+.is-active .finish-info { top: clamp(38px, 5vw, 54px); font-size: clamp(14px, 2.2vw, 22px); }
+.is-active .deadline-info { top: clamp(58px, 8vw, 80px); font-size: clamp(14px, 2.2vw, 22px); }
+.is-active .controls { position: absolute; right: 0; bottom: 0; width: auto; margin: 0; align-items: flex-end; gap: 6px; }
+.is-active .config-summary { font-size: clamp(16px, 1.8vw, 22px); }
+.is-active .message { text-align: right; }
+.is-active .primary-button,
+.is-active .reset-button { width: clamp(150px, 24vw, 220px); min-height: 58px; font-size: clamp(19px, 2.8vw, 24px); }
+.is-paused .controls { flex-direction: row; }
+.is-paused .message { position: absolute; right: 0; bottom: calc(100% + 8px); width: min(80vw, 360px); }
+
+@media (min-width: 900px) and (orientation: landscape) and (min-height: 501px) {
+  .is-running .clock { font-size: min(50vw, 65vh, 560px); }
+}
 
 dialog {
   width: min(100% - 24px, 640px);
@@ -177,8 +200,7 @@ select, input[type="time"], input[type="number"] {
   .header h1 { font-size: 16px; }
   .main-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(190px, 31%); gap: 12px; }
   .timer-center { gap: 3px; }
-  .phase { font-size: 22px; }
-  .clock { font-size: min(19vw, 40vh); }
+  .clock { font-size: min(22vw, 44vh); }
   .round-info { font-size: 24px; }
   .round-adjust { width: 42px; height: 42px; font-size: 27px; }
   .finish-info, .deadline-info { font-size: 14px; }
@@ -188,10 +210,11 @@ select, input[type="time"], input[type="number"] {
   .presets span { font-size: 10px; }
   .config-summary { font-size: 13px; }
   .primary-button, .reset-button { min-height: 48px; font-size: 21px; }
+  .is-active .clock { font-size: min(42vw, 54vh); }
+  .is-active .primary-button, .is-active .reset-button { min-height: 48px; }
 }
 
 @media (max-width: 360px) {
-  .clock { font-size: 30vw; }
   .round-info { font-size: 23px; }
   .round-adjust { width: 42px; height: 42px; }
   .setting-row > label { font-size: 16px; }
