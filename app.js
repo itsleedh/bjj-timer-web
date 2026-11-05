@@ -320,6 +320,6 @@ setInterval(() => {
 }, 250);
 
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => { void navigator.serviceWorker.register("./sw.js?v=3").catch(() => {}); });
+  window.addEventListener("load", () => { void navigator.serviceWorker.register("./sw.js?v=4").catch(() => {}); });
 }
 render();
