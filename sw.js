@@ -1,6 +1,6 @@
-const CACHE_NAME = "bjj-timer-v2";
+const CACHE_NAME = "bjj-timer-v3";
 const ASSETS = [
-  "./", "./index.html", "./styles.css", "./app.js", "./timer-core.js",
+  "./index.html?v=3", "./styles.css?v=3", "./app.js?v=3", "./timer-core.js",
   "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png",
 ];
 
@@ -27,7 +27,7 @@ self.addEventListener("fetch", (event) => {
     }).catch(async () => {
       const cached = await caches.match(event.request);
       if (cached) return cached;
-      if (event.request.mode === "navigate") return caches.match("./index.html");
+      if (event.request.mode === "navigate") return caches.match("./index.html?v=3");
       throw new Error("Offline resource unavailable");
     }),
   );
