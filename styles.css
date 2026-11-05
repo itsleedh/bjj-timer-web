@@ -1,0 +1,199 @@
+:root {
+  color-scheme: light;
+  --yellow: #ffe03f;
+  --ink: #101010;
+  --red: #a30f14;
+  --line: rgba(16, 16, 16, .28);
+  font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { margin: 0; min-height: 100%; }
+body { background: var(--yellow); color: var(--ink); }
+button, input, select { font: inherit; }
+button { cursor: pointer; touch-action: manipulation; }
+button:disabled { cursor: default; opacity: .35; }
+:focus-visible { outline: 3px solid var(--red); outline-offset: 3px; }
+
+.app {
+  width: 100%;
+  min-height: 100svh;
+  height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  padding: max(10px, env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(14px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
+  margin: auto;
+  max-width: 1600px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  gap: 12px;
+}
+.header h1 { font-size: 18px; line-height: 1.2; margin: 0; font-weight: 800; }
+.header-button, .plain-button {
+  min-height: 44px;
+  min-width: 58px;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  font-weight: 750;
+}
+
+.main-layout { min-height: 0; flex: 1; display: flex; flex-direction: column; }
+.timer-face { flex: 1; min-height: 0; display: flex; align-items: center; justify-content: center; text-align: center; }
+.timer-center { width: 100%; display: flex; flex-direction: column; align-items: center; gap: clamp(6px, 1.2vh, 20px); }
+.phase { font-size: clamp(26px, 5.6vw, 54px); font-weight: 850; line-height: 1.1; }
+.clock {
+  width: 100%;
+  font-family: "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(87px, min(31vw, 37vh), 370px);
+  font-weight: 900;
+  font-stretch: condensed;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.065em;
+  line-height: .9;
+  white-space: nowrap;
+  user-select: none;
+}
+.round-line { display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%; }
+.round-info { font-size: clamp(27px, 5.2vw, 54px); font-weight: 850; line-height: 1.15; white-space: nowrap; }
+.round-adjust {
+  width: 48px;
+  height: 48px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border: 2px solid var(--line);
+  border-radius: 9px;
+  background: rgba(16,16,16,.08);
+  color: var(--ink);
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1;
+}
+.finish-info, .deadline-info { font-size: clamp(16px, 2.2vw, 24px); font-weight: 600; font-variant-numeric: tabular-nums; }
+.deadline-info { opacity: .72; }
+
+.controls { width: min(100%, 650px); margin: 0 auto; display: flex; flex-direction: column; align-items: stretch; gap: 9px; }
+.message { text-align: center; font-size: 15px; font-weight: 700; color: var(--red); }
+.presets { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.presets button {
+  min-height: 50px;
+  padding: 5px 4px;
+  border: 2px solid var(--line);
+  border-radius: 10px;
+  background: rgba(255,255,255,.12);
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 800;
+}
+.presets button.selected { background: rgba(16,16,16,.14); border-color: var(--ink); }
+.presets span { display: block; font-size: 12px; font-weight: 650; }
+.config-summary { text-align: center; font-size: 16px; font-weight: 650; }
+.primary-button, .reset-button {
+  min-height: 64px;
+  border: 2px solid var(--ink);
+  border-radius: 12px;
+  font-size: 25px;
+  font-weight: 850;
+}
+.primary-button { background: var(--ink); color: var(--yellow); }
+.reset-button { background: transparent; color: var(--ink); }
+.is-rest .phase, .is-rest .clock { color: var(--red); }
+
+dialog {
+  width: min(100% - 24px, 640px);
+  max-height: min(90dvh, 900px);
+  padding: 0;
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  background: #fff9df;
+  color: var(--ink);
+  box-shadow: 0 20px 80px rgba(0,0,0,.28);
+}
+dialog::backdrop { background: rgba(0,0,0,.55); }
+.settings-form { padding: 18px; display: flex; flex-direction: column; gap: 18px; }
+.dialog-header { display: flex; align-items: center; justify-content: space-between; }
+.dialog-header h2 { font-size: 25px; margin: 0; }
+.settings-group { min-width: 0; margin: 0; padding: 12px 0 0; border: 0; border-top: 2px solid var(--line); }
+.settings-group legend { padding: 0 8px 0 0; font-size: 20px; font-weight: 850; }
+.settings-group h3 { margin: 0 0 8px; font-size: 20px; }
+.setting-row { min-height: 54px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.setting-row > label { font-size: 18px; font-weight: 700; }
+.duration-inputs { display: flex; align-items: center; gap: 6px; }
+select, input[type="time"], input[type="number"] {
+  min-height: 44px;
+  border: 2px solid var(--line);
+  border-radius: 8px;
+  background: white;
+  color: var(--ink);
+  padding: 6px 8px;
+  font-size: 18px;
+  font-weight: 650;
+}
+.duration-inputs select { max-width: 150px; }
+.custom-row input { width: 100px; text-align: center; }
+.unit { font-weight: 700; }
+.mode-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin: 10px 0; }
+.mode-selector label { position: relative; }
+.mode-selector input { position: absolute; opacity: 0; }
+.mode-selector span { display: grid; place-items: center; min-height: 46px; border: 2px solid var(--line); border-radius: 8px; font-size: 18px; font-weight: 750; }
+.mode-selector input:checked + span { background: var(--ink); border-color: var(--ink); color: var(--yellow); }
+.mode-selector input:focus-visible + span { outline: 3px solid var(--red); outline-offset: 2px; }
+.stepper { display: flex; align-items: center; gap: 4px; }
+.stepper button { width: 44px; height: 44px; border: 2px solid var(--line); border-radius: 8px; background: white; font-size: 25px; font-weight: 750; }
+.stepper input { width: 70px; text-align: center; }
+.hint { font-size: 14px; line-height: 1.4; margin: 8px 0 0; }
+.preview > div { display: flex; justify-content: space-between; gap: 10px; padding: 5px 0; font-size: 17px; }
+.sound-group button { min-height: 44px; border: 2px solid var(--ink); border-radius: 8px; background: transparent; padding: 5px 16px; font-weight: 750; }
+.error { color: var(--red); margin: 0; font-weight: 750; }
+.dialog-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.dialog-actions button { min-height: 52px; border: 2px solid var(--ink); border-radius: 9px; font-weight: 800; font-size: 18px; }
+.dialog-actions button:first-child { background: transparent; }
+.dialog-actions button:last-child { background: var(--ink); color: var(--yellow); }
+
+@media (min-width: 700px) {
+  .app { padding-left: 28px; padding-right: 28px; }
+  .header h1 { font-size: 25px; }
+  .header-button { font-size: 22px; }
+  .controls { gap: 14px; padding-bottom: 10px; }
+  .presets button { min-height: 62px; font-size: 24px; }
+  .presets span { font-size: 15px; }
+  .config-summary { font-size: 22px; }
+  .primary-button, .reset-button { min-height: 76px; font-size: 30px; }
+  .round-adjust { width: 60px; height: 60px; font-size: 38px; }
+  .settings-form { padding: 26px; }
+  .setting-row > label, .preview > div, .mode-selector span { font-size: 21px; }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+  .app { padding-top: 4px; padding-bottom: 4px; }
+  .header { min-height: 40px; }
+  .header h1 { font-size: 16px; }
+  .main-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(190px, 31%); gap: 12px; }
+  .timer-center { gap: 3px; }
+  .phase { font-size: 22px; }
+  .clock { font-size: min(19vw, 40vh); }
+  .round-info { font-size: 24px; }
+  .round-adjust { width: 42px; height: 42px; font-size: 27px; }
+  .finish-info, .deadline-info { font-size: 14px; }
+  .controls { justify-content: center; gap: 6px; padding: 0; }
+  .presets { gap: 4px; }
+  .presets button { min-height: 42px; font-size: 15px; }
+  .presets span { font-size: 10px; }
+  .config-summary { font-size: 13px; }
+  .primary-button, .reset-button { min-height: 48px; font-size: 21px; }
+}
+
+@media (max-width: 360px) {
+  .clock { font-size: 30vw; }
+  .round-info { font-size: 23px; }
+  .round-adjust { width: 42px; height: 42px; }
+  .setting-row > label { font-size: 16px; }
+  .duration-inputs select { max-width: 106px; font-size: 16px; }
+}
