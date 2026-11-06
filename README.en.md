@@ -21,7 +21,7 @@ A sparring timer for iPhone, iPad, and Android. Use it in your browser or add it
 
 ## Use the timer
 
-Choose a quick timer (4 min/30 sec, 5 min/1 min, or 8 min/1 min 30 sec), or open **Settings** to set sparring, rest, and rounds. You can set an end time to calculate the rounds automatically. Use **Test sound** to check your volume, then tap **Start**. Tap **한국어** next to Settings to switch back to Korean.
+Choose a quick timer (4 min/30 sec, 5 min/1 min, or 8 min/1 min 30 sec), or open **Settings** to set sparring, rest, and rounds. You can set an end time to calculate the rounds automatically. Use **Test end cue** to check your volume, then tap **Start**. Tap **한국어** next to Settings to switch back to Korean.
 
 The app works offline after the first visit. Keep the screen on while timing; a screen lock or app switch pauses the timer.
 

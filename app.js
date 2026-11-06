@@ -18,7 +18,7 @@ const elements = {
 
 const translations = {
   ko: {
-    appTitle: "주짓수 타이머", description: "스파링과 휴식을 큰 화면과 버저음으로 알려주는 주짓수 타이머",
+    appTitle: "주짓수 타이머", description: "스파링과 휴식을 큰 화면과 비프음으로 알려주는 주짓수 타이머",
     settings: "설정", switchLanguage: "영어로 전환", trainingTimer: "훈련 타이머", timeRemaining: "남은 시간",
     timerControls: "타이머 조작", roundCount: "반복 횟수", decreaseRounds: "반복 횟수 줄이기",
     increaseRounds: "반복 횟수 늘리기", quickTimers: "빠른 타이머", reset: "처음으로",
@@ -27,18 +27,18 @@ const translations = {
     moreTime: "더 많은 시간", minutesUnit: "분", rest: "휴식", restMinutes: "휴식 분", restSeconds: "휴식 초",
     moreRest: "더 많은 휴식시간", repeat: "반복", roundsMode: "횟수", endTime: "종료 시각",
     trainingPreview: "훈련 미리보기", totalDuration: "총 소요 시간", estimatedEnd: "예상 종료",
-    soundCues: "알림 소리", testSound: "소리 확인",
-    soundHint: "시작은 긴 버저음 1회, 휴식은 버저음 2회, 전체 종료는 3회입니다. 기기 음량을 높여주세요.",
+    soundCues: "알림 소리", testSound: "종료음 확인",
+    soundHint: "스파링 시작은 긴 비프음 1회, 매 스파링 종료와 전체 종료는 짧게 3회·길게 1회 울립니다.",
     cancel: "취소", save: "저장", none: "없음", trainingComplete: "훈련 완료", paused: "일시정지", pause: "일시정지",
     ready: "준비", start: "시작", continue: "계속하기", restart: "다시 시작", finished: "종료",
     deadlineBasis: "종료 기준", audioUnavailable: "소리를 사용할 수 없습니다. 기기 음량과 브라우저 설정을 확인해 주세요.",
-    audioUnsupported: "이 브라우저에서는 버저음을 재생할 수 없습니다.",
+    audioUnsupported: "이 브라우저에서는 비프음을 재생할 수 없습니다.",
     interrupted: "화면 잠금 또는 앱 전환으로 일시정지했습니다. 소리를 확인한 뒤 계속하세요.",
     resetConfirm: "처음으로 돌아갈까요? 진행 중인 훈련을 종료하고 시간 설정은 유지합니다.",
     deadlineHint: "이미 지난 시각은 다음 날로 계산합니다. 시작한 마지막 스파링은 끝까지 진행합니다.",
     roundsHint: "마지막 스파링 뒤에는 휴식 없이 종료합니다.",
     moreRestLuxury: "2분 이상의 휴식은 사치입니다",
-    soundPlayed: "버저음을 재생했습니다. 들리지 않으면 기기 음량을 확인해 주세요.",
+    soundPlayed: "종료음을 재생했습니다. 들리지 않으면 기기 음량을 확인해 주세요.",
     invalidWork: "스파링 시간을 30초부터 99분 30초까지 설정해 주세요.",
     invalidRest: "휴식 시간을 0초부터 2분 30초까지 설정해 주세요.",
     invalidMode: "반복 방식을 선택해 주세요.", invalidRounds: "반복 횟수는 1~99회로 설정해 주세요.",
@@ -54,18 +54,18 @@ const translations = {
     moreTime: "More time", minutesUnit: "min", rest: "Rest", restMinutes: "Rest minutes", restSeconds: "Rest seconds",
     moreRest: "More rest time", repeat: "Repeat", roundsMode: "Rounds", endTime: "End time",
     trainingPreview: "Workout preview", totalDuration: "Total time", estimatedEnd: "Est. finish",
-    soundCues: "Sound cues", testSound: "Test sound",
-    soundHint: "One long buzzer starts sparring. Two buzzes start rest; three signal the end. Turn up your device volume.",
+    soundCues: "Sound cues", testSound: "Test end cue",
+    soundHint: "One long beep starts sparring. Every round end and the workout end play three short beeps followed by one long beep.",
     cancel: "Cancel", save: "Save", none: "None", trainingComplete: "Workout complete", paused: "Paused", pause: "Pause",
     ready: "Ready", start: "Start", continue: "Resume", restart: "Start again", finished: "Finished",
     deadlineBasis: "End time", audioUnavailable: "Sound is unavailable. Check your device volume and browser settings.",
-    audioUnsupported: "This browser cannot play the buzzer.",
+    audioUnsupported: "This browser cannot play beeps.",
     interrupted: "Paused after screen lock or app switch. Check the sound, then resume.",
     resetConfirm: "Reset the timer? This ends the current workout but keeps your settings.",
     deadlineHint: "A past time means tomorrow. The final sparring round runs to completion.",
     roundsHint: "The workout ends after the last sparring round, without a final rest.",
     moreRestLuxury: "More than 2 minutes of rest is a luxury.",
-    soundPlayed: "Buzzer played. Check your device volume if you did not hear it.",
+    soundPlayed: "End cue played. Check your device volume if you did not hear it.",
     invalidWork: "Set sparring between 30 sec and 99 min 30 sec.",
     invalidRest: "Set rest between 0 sec and 2 min 30 sec.",
     invalidMode: "Choose a repeat mode.", invalidRounds: "Set rounds between 1 and 99.",
@@ -171,38 +171,24 @@ class CuePlayer {
   play(cue) {
     if (!this.context) return;
     const pattern = cue === "work"
-      ? [[0, .9, 430]]
-      : cue === "rest"
-        ? [[0, .75, 390], [.9, .75, 390]]
-        : [[0, .75, 510], [.9, .75, 510], [1.8, .9, 510]];
+      ? [[0, .8, 950]]
+      : [[0, .2, 1050], [.32, .2, 1050], [.64, .2, 1050], [.96, .8, 1050]];
     const base = this.context.currentTime + .02;
     for (const [offset, duration, frequency] of pattern) {
       const start = base + offset;
-      const buzzer = this.context.createOscillator();
-      const buzzGain = this.context.createGain();
-      const roughness = this.context.createOscillator();
-      const roughGain = this.context.createGain();
-      const envelope = this.context.createGain();
-      buzzer.type = "sawtooth";
-      buzzer.frequency.value = frequency;
-      roughness.type = "square";
-      roughness.frequency.value = frequency + 7;
-      buzzGain.gain.value = .3;
-      roughGain.gain.value = .12;
-      envelope.gain.setValueAtTime(.0001, start);
-      envelope.gain.exponentialRampToValueAtTime(1, start + .02);
-      envelope.gain.setValueAtTime(1, start + duration - .045);
-      envelope.gain.exponentialRampToValueAtTime(.0001, start + duration);
-      buzzer.connect(buzzGain).connect(envelope);
-      roughness.connect(roughGain).connect(envelope);
-      envelope.connect(this.context.destination);
-      buzzer.start(start);
-      roughness.start(start);
-      buzzer.stop(start + duration + .01);
-      roughness.stop(start + duration + .01);
-      buzzer.onended = () => {
-        buzzer.disconnect(); roughness.disconnect();
-        buzzGain.disconnect(); roughGain.disconnect(); envelope.disconnect();
+      const tone = this.context.createOscillator();
+      const gain = this.context.createGain();
+      tone.type = "sine";
+      tone.frequency.value = frequency;
+      gain.gain.setValueAtTime(0, start);
+      gain.gain.linearRampToValueAtTime(.72, start + .008);
+      gain.gain.setValueAtTime(.72, start + duration - .025);
+      gain.gain.linearRampToValueAtTime(0, start + duration);
+      tone.connect(gain).connect(this.context.destination);
+      tone.start(start);
+      tone.stop(start + duration + .01);
+      tone.onended = () => {
+        tone.disconnect(); gain.disconnect();
       };
     }
   }
@@ -415,7 +401,7 @@ elements.settingsForm.addEventListener("submit", (event) => {
 });
 elements.testSound.addEventListener("click", () => {
   if (audio.unlock()) {
-    audio.play("work");
+    audio.play("complete");
     statusMessageKey = "soundPlayed";
     render();
   }
@@ -433,6 +419,6 @@ setInterval(() => {
 }, 250);
 
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => { void navigator.serviceWorker.register("./sw.js?v=6").catch(() => {}); });
+  window.addEventListener("load", () => { void navigator.serviceWorker.register("./sw.js?v=7").catch(() => {}); });
 }
 applyLanguage();
