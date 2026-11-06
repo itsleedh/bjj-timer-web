@@ -171,8 +171,8 @@ class CuePlayer {
   play(cue) {
     if (!this.context) return;
     const pattern = cue === "work"
-      ? [[0, .8, 950]]
-      : [[0, .2, 1050], [.32, .2, 1050], [.64, .2, 1050], [.96, .8, 1050]];
+      ? [[0, .8, 1150]]
+      : [[0, .2, 1300], [.32, .2, 1300], [.64, .2, 1300], [.96, .8, 1300]];
     const base = this.context.currentTime + .02;
     for (const [offset, duration, frequency] of pattern) {
       const start = base + offset;
@@ -419,6 +419,6 @@ setInterval(() => {
 }, 250);
 
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => { void navigator.serviceWorker.register("./sw.js?v=7").catch(() => {}); });
+  window.addEventListener("load", () => { void navigator.serviceWorker.register("./sw.js?v=8").catch(() => {}); });
 }
 applyLanguage();
