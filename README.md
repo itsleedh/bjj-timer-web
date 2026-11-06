@@ -2,6 +2,8 @@
 
 [English](README.en.md) · **바로 사용:** [주짓수 타이머 열기](https://itsleedh.github.io/bjj-timer-web/)
 
+[지원](https://itsleedh.github.io/bjj-timer-web/support.html) · [개인정보 처리방침](https://itsleedh.github.io/bjj-timer-web/privacy.html)
+
 iPhone·iPad·Android에서 쓰는 스파링 타이머입니다. 별도 계정 없이 설치하거나 브라우저에서 바로 사용할 수 있습니다.
 
 ## 홈 화면에 설치
