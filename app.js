@@ -28,7 +28,7 @@ const translations = {
     moreRest: "더 많은 휴식시간", repeat: "반복", roundsMode: "횟수", endTime: "종료 시각",
     trainingPreview: "훈련 미리보기", totalDuration: "총 소요 시간", estimatedEnd: "예상 종료",
     soundCues: "알림 소리", testSound: "종료음 확인",
-    soundHint: "스파링 시작은 긴 비프음 1회, 매 스파링 종료와 전체 종료는 짧게 3회·길게 1회 울립니다.",
+    soundHint: "스파링 시작·매 라운드 종료·전체 종료 모두 짧게 3회·길게 1회 울립니다.",
     cancel: "취소", save: "저장", none: "없음", trainingComplete: "훈련 완료", paused: "일시정지", pause: "일시정지",
     ready: "준비", start: "시작", continue: "계속하기", restart: "다시 시작", finished: "종료",
     deadlineBasis: "종료 기준", audioUnavailable: "소리를 사용할 수 없습니다. 기기 음량과 브라우저 설정을 확인해 주세요.",
@@ -55,7 +55,7 @@ const translations = {
     moreRest: "More rest time", repeat: "Repeat", roundsMode: "Rounds", endTime: "End time",
     trainingPreview: "Workout preview", totalDuration: "Total time", estimatedEnd: "Est. finish",
     soundCues: "Sound cues", testSound: "Test end cue",
-    soundHint: "One long beep starts sparring. Every round end and the workout end play three short beeps followed by one long beep.",
+    soundHint: "Sparring start, every round end, and workout end all play three short beeps followed by one long beep.",
     cancel: "Cancel", save: "Save", none: "None", trainingComplete: "Workout complete", paused: "Paused", pause: "Pause",
     ready: "Ready", start: "Start", continue: "Resume", restart: "Start again", finished: "Finished",
     deadlineBasis: "End time", audioUnavailable: "Sound is unavailable. Check your device volume and browser settings.",
@@ -151,7 +151,15 @@ function applyLanguage() {
 }
 
 class CuePlayer {
-  constructor() { this.context = null; }
+  constructor() {
+    this.context = null;
+    const drive = 2.8;
+    this.waveCurve = new Float32Array(2049);
+    for (let i = 0; i < this.waveCurve.length; i += 1) {
+      const input = 2 * i / (this.waveCurve.length - 1) - 1;
+      this.waveCurve[i] = Math.tanh(drive * input) / Math.tanh(drive);
+    }
+  }
 
   unlock() {
     try {
@@ -168,27 +176,27 @@ class CuePlayer {
     }
   }
 
-  play(cue) {
+  play() {
     if (!this.context) return;
-    const pattern = cue === "work"
-      ? [[0, .8, 1150]]
-      : [[0, .2, 1300], [.32, .2, 1300], [.64, .2, 1300], [.96, .8, 1300]];
+    const pattern = [[0, .2, 1300], [.32, .2, 1300], [.64, .2, 1300], [.96, .8, 1300]];
     const base = this.context.currentTime + .02;
     for (const [offset, duration, frequency] of pattern) {
       const start = base + offset;
       const tone = this.context.createOscillator();
+      const shaper = this.context.createWaveShaper();
       const gain = this.context.createGain();
       tone.type = "sine";
       tone.frequency.value = frequency;
+      shaper.curve = this.waveCurve;
       gain.gain.setValueAtTime(0, start);
-      gain.gain.linearRampToValueAtTime(.72, start + .008);
-      gain.gain.setValueAtTime(.72, start + duration - .025);
+      gain.gain.linearRampToValueAtTime(.98, start + .008);
+      gain.gain.setValueAtTime(.98, start + duration - .025);
       gain.gain.linearRampToValueAtTime(0, start + duration);
-      tone.connect(gain).connect(this.context.destination);
+      tone.connect(shaper).connect(gain).connect(this.context.destination);
       tone.start(start);
       tone.stop(start + duration + .01);
       tone.onended = () => {
-        tone.disconnect(); gain.disconnect();
+        tone.disconnect(); shaper.disconnect(); gain.disconnect();
       };
     }
   }
@@ -419,6 +427,6 @@ setInterval(() => {
 }, 250);
 
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => { void navigator.serviceWorker.register("./sw.js?v=8").catch(() => {}); });
+  window.addEventListener("load", () => { void navigator.serviceWorker.register("./sw.js?v=9").catch(() => {}); });
 }
 applyLanguage();
